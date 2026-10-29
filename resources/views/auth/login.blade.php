@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập - Quản lý học sinh</title>
+    <title>Đăng nhập - Quản lý sinh viên</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
@@ -18,7 +18,7 @@
                 <div class="text-center mb-4">
                     <i class="bi bi-mortarboard-fill text-primary" style="font-size: 55px;"></i>
                     <h3 class="fw-bold mt-3">Đăng nhập</h3>
-                    <p class="text-muted">Hệ thống quản lý học sinh</p>
+                    <p class="text-muted">Hệ thống quản lý sinh viên</p>
                 </div>
 
                 @if ($errors->any())
@@ -59,7 +59,7 @@
             </div>
 
             <div class="card-footer bg-white text-center py-3 border-0">
-                <small class="text-muted">© 2026 - Quản lý học sinh</small>
+                <small class="text-muted">© 2026 - Quản lý sinh viên</small>
             </div>
 
         </div>
