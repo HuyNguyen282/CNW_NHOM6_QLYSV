@@ -3,33 +3,61 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
+use Faker\Factory as Faker;
 
 class UserSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        // 1. Tạo tài khoản Giáo viên 
-        User::create([
-            'name' => 'Giáo viên',
-            'username' => 'teacher', 
-            'email' => 'teachern@school.edu.vn',
-            'password' => Hash::make('password123'),
-            'role' => 'admin', 
-            'student_id' => null,
-        ]);
+        $faker = Faker::create('vi_VN');
 
-       
-        for ($i = 1; $i <= 100; $i++) {
-            User::create([
-                'name' => 'Học sinh ' . $i,
-                'username' => 'student' . str_pad($i, 3, '0', STR_PAD_LEFT),
-                'email' => 'student' . $i . '@school.edu.vn',
-                'password' => Hash::make('123456'),
-                'role' => 'student',
-                'student_id' => $i, 
-            ]);
+        $users = [
+            [
+                'name' => 'Quản trị viên',
+                'email' => 'admin@gmail.com',
+                'password' => Hash::make('12345678'),
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Nguyễn Văn An',
+                'email' => 'annguyen@gmail.com',
+                'password' => Hash::make('12345678'),
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Trần Thị Bình',
+                'email' => 'binhtran@gmail.com',
+                'password' => Hash::make('12345678'),
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ];
+
+        // Tạo thêm 20 tài khoản mẫu bằng Faker
+        for ($i = 0; $i < 20; $i++) {
+            $users[] = [
+                'name' => $faker->name(),
+                'email' => $faker->unique()->safeEmail(),
+                'password' => Hash::make('12345678'),
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
+
+        // Thêm mới hoặc cập nhật tài khoản theo email
+        foreach ($users as $user) {
+            DB::table('users')->updateOrInsert(
+                ['email' => $user['email']],
+                $user
+            );
         }
     }
 }

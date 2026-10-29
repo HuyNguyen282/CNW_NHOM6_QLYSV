@@ -3,41 +3,77 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Student;
+use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
 class StudentSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $faker = Faker::create('vi_VN');
-        $ho = ['Nguyễn', 'Trần', 'Lê', 'Phạm', 'Hoàng', 'Huỳnh', 'Phan', 'Vũ', 'Võ', 'Đặng', 'Bùi', 'Đỗ', 'Hồ', 'Ngô', 'Dương', 'Lý'];
-        
-        $demNam = ['Văn', 'Hữu', 'Công', 'Quang', 'Minh', 'Đình', 'Xuân', 'Ngọc', 'Đức', 'Thế', 'Tuấn', 'Gia'];
-        $tenNam = ['Anh', 'Bảo', 'Cường', 'Dũng', 'Đạt', 'Đức', 'Hải', 'Hiếu', 'Hoàng', 'Huy', 'Hùng', 'Khang', 'Khoa', 'Kiên', 'Lâm', 'Long', 'Minh', 'Nam', 'Phong', 'Phúc', 'Quân', 'Sơn', 'Thắng', 'Thành', 'Tiến', 'Tùng', 'Việt', 'Vinh'];
-        
-        $demNu = ['Thị', 'Ngọc', 'Thùy', 'Thu', 'Phương', 'Thanh', 'Bích', 'Hồng', 'Mai', 'Kim', 'Diễm', 'Bảo'];
-        $tenNu = ['An', 'Châu', 'Chi', 'Diệp', 'Dung', 'Hà', 'Hân', 'Hoa', 'Huyền', 'Hương', 'Lan', 'Linh', 'Ly', 'Mai', 'My', 'Ngân', 'Ngọc', 'Nhi', 'Nhung', 'Oanh', 'Phương', 'Quyên', 'Quỳnh', 'Thảo', 'Thu', 'Thủy', 'Tiên', 'Trang', 'Trâm', 'Uyên', 'Vân', 'Vy', 'Yến'];
 
-        for ($i = 1; $i <= 100; $i++) {
-            // Random giới tính trước
+        // Danh sách tên đệm phổ biến của người Việt
+        $middleNames = [
+            'Văn', 'Thị', 'Minh', 'Hoàng', 'Ngọc',
+            'Đức', 'Quang', 'Thu', 'Thanh', 'Hải',
+            'Gia', 'Phương', 'Khánh', 'Bảo', 'Anh',
+            'Tuấn', 'Xuân', 'Hồng', 'Mạnh', 'Thành'
+        ];
+
+        // Lấy danh sách ID lớp học thực tế trong database
+        $classRoomIds = DB::table('class_rooms')
+            ->pluck('id')
+            ->toArray();
+
+        if (empty($classRoomIds)) {
+            $this->command->error(
+                'Không tìm thấy lớp học. Hãy chạy ClassRoomSeeder trước!'
+            );
+
+            return;
+        }
+
+        for ($i = 1; $i <= 200; $i++) {
+
+            // Mã sinh viên từ SV0001 đến SV0200
+            $studentCode = 'SV' . str_pad($i, 4, '0', STR_PAD_LEFT);
+
+            // Tạo họ tên bằng Faker, không sử dụng tiền tố xưng hô
+            $fullName = $faker->lastName() . ' '
+                      . $middleNames[array_rand($middleNames)] . ' '
+                      . $faker->firstName();
+
+            // Ngày sinh trong khoảng 18 đến 25 tuổi
+            $dob = $faker->dateTimeBetween('-25 years', '-18 years')
+                         ->format('Y-m-d');
+
+            // Giới tính
             $gender = $faker->randomElement(['Nam', 'Nữ']);
 
-            // Ghép tên dựa theo giới tính để đảm bảo logic
-            if ($gender === 'Nam') {
-                $fullName = $faker->randomElement($ho) . ' ' . $faker->randomElement($demNam) . ' ' . $faker->randomElement($tenNam);
-            } else {
-                $fullName = $faker->randomElement($ho) . ' ' . $faker->randomElement($demNu) . ' ' . $faker->randomElement($tenNu);
-            }
+            // Địa chỉ tại Việt Nam
+            $address = $faker->address();
 
-            Student::create([
-                'student_code' => 'HS' . date('Y') . str_pad($i, 3, '0', STR_PAD_LEFT),
-                'full_name' => $fullName,
-                'dob' => $faker->dateTimeBetween('2006-01-01', '2008-12-31')->format('Y-m-d'),
-                'gender' => $gender,
-                'address' => $faker->address,
-                'class_room_id' => $faker->numberBetween(1, 18),
-            ]);
+            // Chọn một lớp học đang tồn tại
+            $classRoomId = $faker->randomElement($classRoomIds);
+
+            // Thêm mới hoặc cập nhật sinh viên theo mã sinh viên
+            DB::table('students')->updateOrInsert(
+                ['student_code' => $studentCode],
+                [
+                    'full_name'    => $fullName,
+                    'dob'          => $dob,
+                    'gender'       => $gender,
+                    'address'      => $address,
+                    'class_room_id' => $classRoomId,
+                    'updated_at'   => now(),
+                    'created_at'   => now(),
+                ]
+            );
         }
+
+        $this->command->info(
+            'Đã thêm/cập nhật thành công 200 sinh viên!'
+        );
     }
 }
+

@@ -2,31 +2,25 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Seed the application's database.
+     *
+     * @return void
      */
-    public function run(): void
+    public function run()
     {
         $this->call([
-            // 1. Nhóm bảng cha (Không chứa khóa ngoại) 
+            FacultySeeder::class,    
+            MajorSeeder::class,     
             ClassRoomSeeder::class, 
-            SubjectSeeder::class,   
-
-            // 2. Nhóm bảng con cấp 1
-            StudentSeeder::class,  
-
-            // 3. Nhóm bảng con cấp 2
-            UserSeeder::class,     
-            ScoreSeeder::class,     //
+            SubjectSeeder::class,  
+            UserSeeder::class,      
+            StudentSeeder::class,   
+            ScoreSeeder::class,      
         ]);
     }
 }
