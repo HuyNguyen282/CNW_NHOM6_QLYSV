@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique(); //unique: không cho hai lớp trùng tên
             $table->string('description')->nullable(); // nullable: cho phép để trống
+            $table->foreignId('major_id')->constrained('majors')->cascadeOnDelete();
             $table->timestamps();
         });
     }
