@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ClassRoom;
+use App\Models\Major;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,7 +16,7 @@ class ClassController extends Controller
     public function index()
     {
         return view('admin.classes.index', [
-            'classes' => ClassRoom::paginate(10)
+            'classes' => ClassRoom::with('major')->paginate(10)
         ]);
     }
 
@@ -24,7 +25,9 @@ class ClassController extends Controller
      */
     public function create()
     {
-        return view('admin.classes.create');
+        $majors = Major::with('faculty')->get();
+
+        return view('admin.classes.create', compact('majors'));
     }
 
     /**
@@ -34,18 +37,19 @@ class ClassController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255|unique:class_rooms,name',
-            'description' => 'nullable|string'
+            'description' => 'nullable|string',
+            'major_id' => 'required|exists:majors,id'
         ], [
             'name.required' => 'Vui lòng nhập tên lớp.',
-            'name.unique' => 'Tên lớp đã tồn tại.'
+            'name.unique' => 'Tên lớp đã tồn tại.',
+            'major_id.required' => 'Vui lòng chọn ngành học.',
+            'major_id.exists' => 'Ngành học không tồn tại.'
         ]);
 
-        $name = $request->input('name');
-        $description = $request->input('description');
-
         DB::table('class_rooms')->insert([
-            'name' => $name,
-            'description' => $description,
+            'name' => $request->name,
+            'description' => $request->description,
+            'major_id' => $request->major_id,
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -58,6 +62,7 @@ class ClassController extends Controller
      */
     public function show(ClassRoom $class)
     {
+        $class->load('major.faculty');
         return view('admin.classes.show', compact('class'));
     }
 
@@ -66,7 +71,8 @@ class ClassController extends Controller
      */
     public function edit(ClassRoom $class)
     {
-        return view('admin.classes.edit', compact('class'));
+        $majors = Major::with('faculty')->get();
+        return view('admin.classes.edit', compact('class', 'majors'));
     }
 
     /**
@@ -76,15 +82,19 @@ class ClassController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255|unique:class_rooms,name,' . $class->id,
-            'description' => 'nullable|string'
+            'description' => 'nullable|string',
+            'major_id' => 'required|exists:majors,id'
         ], [
             'name.required' => 'Vui lòng nhập tên lớp.',
-            'name.unique' => 'Tên lớp đã tồn tại.'
+            'name.unique' => 'Tên lớp đã tồn tại.',
+            'major_id.required' => 'Vui lòng chọn ngành học.',
+            'major_id.exists' => 'Ngành học không tồn tại.'
         ]);
 
         $class->update([
             'name' => $request->name,
-            'description' => $request->description
+            'description' => $request->description,
+            'major_id' => $request->major_id
         ]);
 
         return redirect()->route('admin.classes.index')->with('success', 'Cập nhật lớp học thành công.');
@@ -96,8 +106,6 @@ class ClassController extends Controller
     public function destroy(ClassRoom $class)
     {
         $class->delete();
-
-        return redirect()->route('admin.classes.index')
-            ->with('success', 'Xóa lớp học thành công.');
+        return redirect()->route('admin.classes.index')->with('success', 'Xóa lớp học thành công.');
     }
 }
