@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Quản lý lớp học')
+
 @section('content')
 
 @if ($message = Session::get('success'))
@@ -34,23 +36,23 @@
             <table class="table table-bordered table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th class="text-center" style="width: 90px;">Mã lớp</th>
-                        <th style="width: 200px;">Tên lớp</th>
+                        <th class="text-center" style="width: 80px;">Mã lớp</th>
+                        <th style="width: 150px;">Tên lớp</th>
+                        <th>Ngành học</th>
+                        <th>Khoa</th>
                         <th>Mô tả</th>
                         <th class="text-center" style="width: 160px;">Thao tác</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    @if(count($classes) > 0)
-                    @foreach($classes as $row)
+                    @forelse($classes as $row)
                     <tr>
                         <td class="text-center">{{ $row->id }}</td>
-
                         <td>{{ $row->name }}</td>
-
+                        <td>{{ $row->major->name ?? 'Chưa có ngành' }}</td>
+                        <td>{{ $row->major->faculty->name ?? 'Chưa có khoa' }}</td>
                         <td>{{ $row->description ?? 'Không có mô tả' }}</td>
-
                         <td>
                             <div class="d-flex justify-content-center align-items-center gap-2">
                                 <a href="{{ route('admin.classes.show', $row->id) }}" class="btn btn-primary btn-sm"
@@ -75,15 +77,14 @@
                             </div>
                         </td>
                     </tr>
-                    @endforeach
-                    @else
+                    @empty
                     <tr>
-                        <td colspan="4" class="text-center text-muted py-4">
+                        <td colspan="6" class="text-center text-muted py-4">
                             <i class="bi bi-inbox fs-3 d-block mb-2"></i>
                             Chưa có lớp học nào
                         </td>
                     </tr>
-                    @endif
+                    @endforelse
                 </tbody>
             </table>
         </div>
