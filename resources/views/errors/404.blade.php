@@ -1,0 +1,1 @@
+<h2>404 - Không tìm thấy trang bạn yêu cầu!</h2><a href="/">Trở về trang chủ</a>
