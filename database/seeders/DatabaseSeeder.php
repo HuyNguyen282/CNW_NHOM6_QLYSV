@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
@@ -15,11 +16,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call([
+            // 1. Nhóm bảng cha (Không chứa khóa ngoại) 
+            ClassRoomSeeder::class, 
+            SubjectSeeder::class,   
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            // 2. Nhóm bảng con cấp 1
+            StudentSeeder::class,  
+
+            // 3. Nhóm bảng con cấp 2
+            UserSeeder::class,     
+            ScoreSeeder::class,     //
         ]);
     }
 }

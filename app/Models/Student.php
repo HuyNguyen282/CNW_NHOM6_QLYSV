@@ -15,7 +15,7 @@ class Student extends Model
     public function classRoom(){
         return $this->belongsTo(ClassRoom::class);
     }
-    public function scrores(){
+    public function scores(){
         return $this->hasMany(Score::class);
     }
     public function user()
