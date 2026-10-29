@@ -25,6 +25,7 @@ class ScoreController extends Controller
     public function create(Request $request)
     {
         return view('admin.scores.create', [
+            'score'             => new Score(),
             'students'          => Student::orderBy('full_name')->get(),
             'subjects'          => Subject::orderBy('name')->get(),
             'selectedStudentId' => $request->integer('student_id') ?: null,

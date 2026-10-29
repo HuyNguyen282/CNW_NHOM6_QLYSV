@@ -15,7 +15,7 @@
             <select name="student_id">
                 <option value="">-- Chọn sinh viên --</option>
                 @foreach ($students as $st)
-                    <option value="{{ $st->id }}" @selected(old('student_id', $score->student_id) == $st->id)>
+                    <option value="{{ $st->id }}" @selected(old('student_id', $score->student_id ?? $selectStudentId ?? null ) == $st->id)>
                         {{ $st->student_code }} - {{ $st->full_name }}
                     </option>
                 @endforeach
