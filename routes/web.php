@@ -21,6 +21,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('students', Admin\StudentController::class);
     Route::resource('subjects', Admin\SubjectController::class);
     Route::resource('scores', Admin\ScoreController::class);
+    Route::resource('faculties', Admin\FacultyController::class)->except('show');
+    Route::resource('majors', Admin\MajorController::class)->except('show');
 });
 
 Route::middleware(['auth', 'role:student'])->prefix('student')->name('student.')->group(function () {
