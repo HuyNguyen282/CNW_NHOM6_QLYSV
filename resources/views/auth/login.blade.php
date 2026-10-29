@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -29,6 +28,7 @@
 
                 <form action="{{ route('login') }}" method="POST">
                     @csrf
+
                     <div class="mb-3">
                         <label for="username" class="form-label">Tên đăng nhập</label>
                         <div class="input-group">
@@ -61,11 +61,8 @@
             <div class="card-footer bg-white text-center py-3 border-0">
                 <small class="text-muted">© 2026 - Quản lý sinh viên</small>
             </div>
-
         </div>
     </div>
-
 </body>
 
 </html>
-```
