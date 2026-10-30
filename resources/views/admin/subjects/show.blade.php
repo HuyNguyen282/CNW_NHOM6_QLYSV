@@ -31,10 +31,10 @@
             Quay lại danh sách
         </a>
 
-        <a href="{{ route('admin.subjects.edit', $subject->id) }}"
+        <!-- <a href="{{ route('admin.subjects.edit', $subject->id) }}"
            class="btn btn-warning">
             Sửa môn học
-        </a>
+        </a> -->
     </div>
 </div>
 
