@@ -16,6 +16,7 @@ Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+
     Route::get('/', [Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::resource('classes', Admin\ClassController::class);
     Route::resource('students', Admin\StudentController::class);
