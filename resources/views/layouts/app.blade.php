@@ -8,6 +8,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
 <body class="bg-light">
@@ -25,6 +26,9 @@
 
             <div class="collapse navbar-collapse" id="navbarMenu">
                 <ul class="navbar-nav me-auto">
+
+                    @if (auth()->user()->role === 'admin')
+
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.dashboard') }}">
                             <i class="bi bi-house-door me-1"></i> Trang chủ
@@ -66,6 +70,28 @@
                             <i class="bi bi-clipboard-data me-1"></i> Điểm số
                         </a>
                     </li>
+
+                    @elseif (auth()->user()->role === 'student')
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('student.profile') }}">
+                            <i class="bi bi-house-door me-1"></i> Hồ sơ cá nhân
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('student.class') }}">
+                            <i class="bi bi-people me-1"></i> Thông tin lớp học
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('student.scores') }}">
+                            <i class="bi bi-clipboard-data me-1"></i> Điểm số
+                        </a>
+                    </li>
+
+                    @endif
 
                 </ul>
 

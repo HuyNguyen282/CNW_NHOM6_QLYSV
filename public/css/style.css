@@ -1,0 +1,51 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f7fb;
+    color: #333;
+}
+
+.navbar {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.navbar .nav-link {
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.navbar .nav-link:hover {
+    color: #dbeafe;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.form-control,
+.form-select {
+    border-radius: 7px;
+}
+
+.btn {
+    border-radius: 7px;
+    font-weight: 500;
+}
+
+.table {
+    vertical-align: middle;
+}
+
+@media (max-width: 768px) {
+    main.container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
