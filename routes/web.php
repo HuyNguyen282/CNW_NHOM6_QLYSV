@@ -16,6 +16,7 @@ Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+
     Route::get('/', [Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::resource('classes', Admin\ClassController::class);
     Route::resource('students', Admin\StudentController::class);
@@ -31,3 +32,7 @@ Route::middleware(['auth', 'role:student'])->prefix('student')->name('student.')
     Route::get('/class', [Student\ClassController::class, 'index'])->name('class');
     Route::get('/scores', [Student\ScoreController::class, 'index'])->name('scores');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
