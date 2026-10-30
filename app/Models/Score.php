@@ -9,7 +9,7 @@ class Score extends Model
     protected $fillable = ['student_id', 'subject_id', 'score'];
 
     protected $casts = [
-        'score' => 'decimal:2',
+        'score' => 'float',
     ];
 
     public function student()
