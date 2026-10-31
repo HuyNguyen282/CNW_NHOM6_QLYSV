@@ -38,12 +38,24 @@
                 <td>{{ $major->faculty ? $major->faculty->name : 'N/A' }}</td>
                 <td>
                     <div class="row-actions">
-                        <a href="{{ route('admin.majors.edit', $major->id) }}" class="icon-btn" title="Sửa">Sửa</a>
+                        <!-- Nút Xem chi tiết -->
+                        <a href="{{ route('admin.majors.show', $major->id) }}" class="icon-btn text-info" title="Xem chi tiết">
+                            <i class="bi bi-eye-fill"></i>
+                        </a>
+
+                        <!-- Nút Sửa -->
+                        <a href="{{ route('admin.majors.edit', $major->id) }}" class="icon-btn" title="Sửa">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        <!-- Nút Xóa -->
                         <form action="{{ route('admin.majors.destroy', $major->id) }}" method="POST"
-                              onsubmit="return confirm('Bạn có chắc chắn muốn xóa ngành này?');">
+                              onsubmit="return confirm('Bạn có chắc chắn muốn xóa ngành này?');" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="icon-btn danger" title="Xóa">Xóa</button>
+                            <button type="submit" class="icon-btn danger" title="Xóa">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
                         </form>
                     </div>
                 </td>
@@ -53,7 +65,6 @@
     </table>
 
     <div class="align-items-center px-3 py-3 border-top">
-
         <div>
             {{ $majors->links('pagination::bootstrap-5') }}
         </div>

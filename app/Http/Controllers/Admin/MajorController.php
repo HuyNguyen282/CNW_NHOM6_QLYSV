@@ -53,10 +53,13 @@ class MajorController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Major $major)
-    {
-        return view('admin.majors.show', compact('major'));
-    }
+    public function show($id)
+{
+    // Lấy thông tin ngành kèm theo Khoa và danh sách các lớp học thuộc ngành
+    $major = Major::with(['faculty', 'classRooms'])->findOrFail($id);
+
+    return view('admin.majors.show', compact('major'));
+}
 
     /**
      * Show the form for editing the specified resource.
