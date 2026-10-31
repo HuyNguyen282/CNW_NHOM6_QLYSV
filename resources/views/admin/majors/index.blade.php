@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <div class="container py-4">
-   
+    
     <div class="text-center mb-4">
         <h2 class="fw-bold text-primary">Quản lý ngành học</h2>
     </div>

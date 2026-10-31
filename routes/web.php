@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Student;
 
+
 Route::get('/', function () {
     $user = auth()->user();
     if (!$user) return redirect()->route('login');
@@ -15,16 +16,19 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middl
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/', [Admin\DashboardController::class, 'index'])->name('dashboard');
+    
+    // Thêm route thống kê bảng điểm tổng hợp theo lớp
+    Route::get('/statistics/class/{id}', [Admin\ScoreStatisticsController::class, 'byClass'])->name('statistics.by_class');
+
     Route::resource('classes', Admin\ClassController::class);
     Route::resource('students', Admin\StudentController::class);
     Route::resource('subjects', Admin\SubjectController::class);
-    Route::resource('scores', Admin\ScoreController::class)->except('show');
-    Route::resource('faculties', Admin\FacultyController::class)->except('show');
-    Route::resource('majors', Admin\MajorController::class)->except('show');
+    Route::resource('scores', Admin\ScoreController::class);
+    Route::resource('faculties', Admin\FacultyController::class);
+    Route::resource('majors', Admin\MajorController::class);
 
 });
 
