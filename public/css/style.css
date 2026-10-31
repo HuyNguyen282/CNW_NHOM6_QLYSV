@@ -190,3 +190,9 @@ td a:not([class]) {
     gap: .35rem;
 }
 .data-table .row-actions form { margin: 0; }
+.navbar,
+.navbar.bg-primary,
+.navbar.navbar-dark {
+    background-color: #fff !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
