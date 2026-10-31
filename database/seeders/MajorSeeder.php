@@ -12,7 +12,7 @@ class MajorSeeder extends Seeder
     {
         $now = Carbon::now();
 
-        // Lấy ID khoa theo tên, không giả định ID luôn bắt đầu từ 1
+        // Lấy ID khoa theo tên
         $faculties = [
             'Khoa Công nghệ thông tin' => [
                 'Hệ thống thông tin',

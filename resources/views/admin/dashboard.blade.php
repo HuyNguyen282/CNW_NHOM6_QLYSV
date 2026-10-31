@@ -49,7 +49,7 @@
                 
                 <!-- Thẻ tổng quan -->
                 <div class="card border-0 shadow-sm rounded-4 bg-light p-3">
-                    <h5 class="fw-bold text-dark mb-3 px-2">Tổng quan Hệ thống</h5>
+                    <h5 class="fw-bold text-dark mb-3 px-2">Tổng quan hệ thống</h5>
                     <div class="row g-3">
                         <div class="col-4">
                             <div class="card border-0 bg-primary text-white p-3 rounded-3 text-center">
