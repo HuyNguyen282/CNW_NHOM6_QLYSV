@@ -44,7 +44,7 @@ class ScoreSeeder extends Seeder
                     ],
                     [
                         
-                        'score' => $faker->randomFloat(2, 5.5, 10),
+                        'score' => $faker->randomFloat(2, 4, 10),
                         'created_at' => now(),
                         'updated_at' => now(),
                     ]
