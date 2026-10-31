@@ -8,10 +8,10 @@
 <body>
     <form method="POST" action="{{ route('login') }}">
     @csrf
-    <input name="username" value="{{ old('username') }}" placeholder="Tên đăng nhập">
+    <input name="email" value="{{ old('email') }}" placeholder="Email đăng nhập">
     <input name="password" type="password" placeholder="Mật khẩu">
     <button type="submit">Đăng nhập</button>
-    @error('username') <p>{{ $message }}</p> @enderror
+    @error('email') <p>{{ $message }}</p> @enderror
 </form>
 </body>
 </html>

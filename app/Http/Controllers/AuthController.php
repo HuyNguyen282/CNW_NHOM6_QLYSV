@@ -12,22 +12,19 @@ class AuthController extends Controller
     }
     public function login(Request $request){
         $credentials = $request->validate([
-            'username' => 'required|string',
+            'email' => 'required|email', 
             'password'=> 'required|string',
         ]);
+        
+      
         if(Auth::attempt($credentials)){
             $request->session()->regenerate();
             return redirect('/');
         }
+        
+      
         return back()
-                ->withErrors(['username' => 'Sai tên đăng nhập hoặc sai mật khẩu'])
-                ->onlyInput('username');
-
-    }
-    public function logout(Request $request){
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect()->route('login');
+                ->withErrors(['email' => 'Sai tài khoản hoặc sai mật khẩu']) 
+                ->onlyInput('email'); 
     }
 }

@@ -19,4 +19,9 @@ class Major extends Model
     {
         return $this->hasMany(ClassRoom::class);
     }
+    public function students()
+    {
+       
+        return $this->hasManyThrough(Student::class, ClassRoom::class);
+    }
 }
