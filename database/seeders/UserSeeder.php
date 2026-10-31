@@ -13,11 +13,16 @@ class UserSeeder extends Seeder
     {
         $faker = Faker::create('vi_VN');
 
+        // id các học sinh đã có (StudentSeeder phải chạy trước)
+        $studentIds = DB::table('students')->orderBy('id')->pluck('id')->all();
+
         $users = [
             [
                 'name' => 'Quản trị viên',
                 'email' => 'admin@gmail.com',
                 'password' => Hash::make('12345678'),
+                'role' => 'admin',               // thêm
+                'student_id' => null,            // thêm
                 'email_verified_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -26,6 +31,8 @@ class UserSeeder extends Seeder
                 'name' => 'Nguyễn Văn An',
                 'email' => 'annguyen@gmail.com',
                 'password' => Hash::make('12345678'),
+                'role' => 'student',                       // thêm
+                'student_id' => $studentIds[0] ?? null,    // thêm
                 'email_verified_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -34,18 +41,21 @@ class UserSeeder extends Seeder
                 'name' => 'Trần Thị Bình',
                 'email' => 'binhtran@gmail.com',
                 'password' => Hash::make('12345678'),
+                'role' => 'student',                       // thêm
+                'student_id' => $studentIds[1] ?? null,    // thêm
                 'email_verified_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
         ];
 
-        // Tạo thêm 20 tài khoản mẫu bằng Faker
         for ($i = 0; $i < 20; $i++) {
             $users[] = [
                 'name' => $faker->name(),
                 'email' => $faker->unique()->safeEmail(),
                 'password' => Hash::make('12345678'),
+                'role' => 'student',      // thêm
+                'student_id' => null,     // thêm
                 'email_verified_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
