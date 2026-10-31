@@ -25,8 +25,8 @@ class AuthController extends Controller
                 : redirect()->route('student.profile');
         }
         return back()
-            ->withErrors(['username' => 'Sai tên đăng nhập hoặc sai mật khẩu'])
-            ->onlyInput('username');
+            ->withErrors(['email' => 'Sai email hoặc sai mật khẩu'])
+            ->onlyInput('email');
     }
     public function logout(Request $request)
     {
