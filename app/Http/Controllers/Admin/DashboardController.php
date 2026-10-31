@@ -19,7 +19,7 @@ class DashboardController extends Controller
     {
         $keyword = $request->input('keyword');
         $stats = $this->statisticService->getDashboardStats($keyword);
-        
+
         return view('admin.dashboard', compact('stats', 'keyword'));
     }
 }
