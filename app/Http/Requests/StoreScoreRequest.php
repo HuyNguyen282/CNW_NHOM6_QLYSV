@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Models\Student;
 
 class StoreScoreRequest extends FormRequest
 {
@@ -14,28 +15,19 @@ class StoreScoreRequest extends FormRequest
 
     public function rules(): array
     {
-        // Lấy model Score từ tham số của Route (nếu đang ở hàm update)
-        $score = $this->route('score');
-
-        // Tạo rule kiểm tra trùng lặp cặp (student_id, subject_id)
-        $uniqueRule = Rule::unique('scores')->where(function ($query) {
-            return $query->where('student_id', $this->student_id)
-                         ->where('subject_id', $this->subject_id);
-        });
-
-        // Nếu đang ở thao tác Update, cho phép giữ nguyên ID hiện tại
-        if ($score) {
-            $uniqueRule->ignore($score->id);
-        }
+        $ignoreId = $this->route('score')?->id;
 
         return [
-            'student_id' => ['required', 'exists:students,id'],
-            'subject_id' => [
+            'student_code' => ['required', 'exists:students,student_code'],
+            'student_id'   => ['nullable', 'integer'],
+            'subject_id'   => [
                 'required',
                 'exists:subjects,id',
-                $uniqueRule,
+                Rule::unique('scores')
+                    ->where('student_id', $this->student_id)
+                    ->ignore($ignoreId),
             ],
-            'score' => ['required', 'numeric', 'min:0', 'max:10'],
+            'score' => ['required', 'numeric', 'between:0,10'],
         ];
     }
 
@@ -51,6 +43,15 @@ class StoreScoreRequest extends FormRequest
             'score.numeric'       => 'Điểm số phải là dạng số.',
             'score.min'           => 'Điểm số không được nhỏ hơn 0.',
             'score.max'           => 'Điểm số không được vượt quá 10.',
+            'student_code.exists' => 'Không tìm thấy sinh viên có mã này.',
+            'student_code.required' => 'Vui lòng nhập mã sinh viên.',
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $student = Student::where('student_code', trim((string) $this->student_code))->first();
+
+        $this->merge(['student_id' => $student?->id]);
     }
 }
