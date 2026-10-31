@@ -3,62 +3,54 @@
 @section('title', 'Thêm lớp học mới')
 
 @section('content')
-
-@if($errors->any())
-<div class="alert alert-danger">
-    <ul class="mb-0">
-        @foreach($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
-
-<div class="card shadow-sm">
-    <div class="card-header bg-primary text-white">
-        <h5 class="mb-0">Thêm lớp học mới</h5>
+<x-form-card title="Thêm lớp học mới">
+    @if($errors->any())
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
     </div>
+    @endif
 
-    <div class="card-body">
-        <form method="POST" action="{{ route('admin.classes.store') }}">
-            @csrf
+    <form method="POST" action="{{ route('admin.classes.store') }}">
+        @csrf
 
-            <div class="mb-3">
-                <label for="name" class="form-label">Tên lớp</label>
-                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}"
-                    placeholder="Nhập tên lớp" required>
-            </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Tên lớp</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}"
+                placeholder="Nhập tên lớp" required>
+        </div>
 
-            <div class="mb-3">
-                <label for="major_id" class="form-label">Ngành học</label>
-                <select class="form-select" id="major_id" name="major_id" required>
-                    <option value="">-- Chọn ngành học --</option>
+        <div class="mb-3">
+            <label for="major_id" class="form-label">Ngành học</label>
+            <select class="form-select" id="major_id" name="major_id" required>
+                <option value="">-- Chọn ngành học --</option>
 
-                    @foreach($majors as $major)
-                    <option value="{{ $major->id }}" {{ old('major_id') == $major->id ? 'selected' : '' }}>
-                        {{ $major->name }} - {{ $major->faculty->name ?? 'Chưa có khoa' }}
-                    </option>
-                    @endforeach
-                </select>
-            </div>
+                @foreach($majors as $major)
+                <option value="{{ $major->id }}" {{ old('major_id') == $major->id ? 'selected' : '' }}>
+                    {{ $major->name }} - {{ $major->faculty->name ?? 'Chưa có khoa' }}
+                </option>
+                @endforeach
+            </select>
+        </div>
 
-            <div class="mb-3">
-                <label for="description" class="form-label">Mô tả</label>
-                <textarea class="form-control" id="description" name="description" rows="3"
-                    placeholder="Nhập mô tả lớp học">{{ old('description') }}</textarea>
-            </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Mô tả</label>
+            <textarea class="form-control" id="description" name="description" rows="3"
+                placeholder="Nhập mô tả lớp học">{{ old('description') }}</textarea>
+        </div>
 
-            <div class="text-center">
-                <a href="{{ route('admin.classes.index') }}" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left me-1"></i> Quay lại
-                </a>
+        <div class="form-actions">
+            <a href="{{ route('admin.classes.index') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left me-1"></i> Quay lại
+            </a>
 
-                <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-plus-circle me-1"></i> Thêm lớp học
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-1"></i> Thêm lớp học
+            </button>
+        </div>
+    </form>
+</x-form-card>
 @endsection

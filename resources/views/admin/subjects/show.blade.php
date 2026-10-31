@@ -1,31 +1,25 @@
-
 @extends('layouts.app')
 
 @section('content')
+<x-form-card title="Chi tiết môn học">
+    <table class="table table-bordered">
+        <tr>
+            <th style="width: 200px">Mã môn học</th>
+            <td>{{ $subject->id }}</td>
+        </tr>
 
-<div class="card">
-    <div class="card-header">
-        Chi tiết môn học
-    </div>
+        <tr>
+            <th>Tên môn học</th>
+            <td>{{ $subject->name }}</td>
+        </tr>
 
-    <div class="card-body">
-        <table class="table table-bordered">
-            <tr>
-                <th style="width: 200px">Mã môn học</th>
-                <td>{{ $subject->id }}</td>
-            </tr>
+        <tr>
+            <th>Số tín chỉ</th>
+            <td>{{ $subject->credits }}</td>
+        </tr>
+    </table>
 
-            <tr>
-                <th>Tên môn học</th>
-                <td>{{ $subject->name }}</td>
-            </tr>
-
-            <tr>
-                <th>Số tín chỉ</th>
-                <td>{{ $subject->credits }}</td>
-            </tr>
-        </table>
-
+    <div class="form-actions">
         <a href="{{ route('admin.subjects.index') }}"
            class="btn btn-secondary">
             Quay lại danh sách
@@ -36,6 +30,5 @@
             Sửa môn học
         </a> -->
     </div>
-</div>
-
+</x-form-card>
 @endsection

@@ -69,5 +69,18 @@ class UserSeeder extends Seeder
                 $user
             );
         }
+        $gender = [
+            'annguyen@gmail.com' => 'Nam',
+            'binhtran@gmail.com'=> 'Nữ',
+        ];
+        foreach ($gender as $email => $g) {
+            $u = DB::table('users')->where('email', $email)->first();
+            if ($u && $u->student_id) {
+                DB::table('students')->where('id', $u->student_id)->update([
+                    'full_name' => $u->name,
+                    'gender'    => $g,
+                ]);
+            }
+        }
     }
 }

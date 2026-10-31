@@ -1,13 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-4">
-    <h2>Thêm ngành học</h2>
-
+<x-form-card title="Thêm ngành học">
     <!-- Hiển thị lỗi validation  -->
     @if ($errors->any())
         <div class="alert alert-danger">
-            <ul>
+            <ul class="mb-0">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
@@ -26,7 +24,7 @@
         <div class="mb-3">
             <label for="faculty_id" class="form-label">Thuộc khoa</label>
             <!-- Name khớp với $request->input('faculty_id') -->
-            <select class="form-control" name="faculty_id">
+            <select class="form-select" name="faculty_id">
                 <option value="">-- Chọn khoa --</option>
                 <!-- Lặp biến $faculties được truyền từ create() -->
                 @foreach($faculties as $faculty)
@@ -37,8 +35,10 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-success">Lưu dữ liệu</button>
-        <a href="{{ route('admin.majors.index') }}" class="btn btn-secondary">Quay lại</a>
+        <div class="form-actions">
+            <a href="{{ route('admin.majors.index') }}" class="btn btn-secondary">Quay lại</a>
+            <button type="submit" class="btn btn-primary">Lưu dữ liệu</button>
+        </div>
     </form>
-</div>
+</x-form-card>
 @endsection
