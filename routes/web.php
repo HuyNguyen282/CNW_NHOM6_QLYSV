@@ -33,6 +33,4 @@ Route::middleware(['auth', 'role:student'])->prefix('student')->name('student.')
     Route::get('/scores', [Student\ScoreController::class, 'index'])->name('scores');
 });
 
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
