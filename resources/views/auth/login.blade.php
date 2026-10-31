@@ -35,8 +35,8 @@
                             <span class="input-group-text">
                                 <i class="bi bi-person"></i>
                             </span>
-                            <input type="text" class="form-control" id="username" name="username"
-                                value="{{ old('username') }}" placeholder="Nhập tên đăng nhập" required>
+                            <input type="email" class="form-control" id="username" name="email"
+                                value="{{ old('email') }}" placeholder="Nhập tên đăng nhập" required>
                         </div>
                     </div>
 
