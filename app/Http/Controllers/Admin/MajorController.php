@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin; 
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Major;
 use App\Models\Faculty;
-use App\Models\Subject; 
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class MajorController extends Controller
@@ -24,7 +24,7 @@ class MajorController extends Controller
     public function create()
     {
         $faculties = Faculty::all();
-        $subjects = Subject::orderBy('name')->get(); 
+        $subjects = Subject::orderBy('name')->get();
         return view('admin.majors.create', compact('faculties', 'subjects'));
     }
 
@@ -36,7 +36,7 @@ class MajorController extends Controller
         $validatedData = $request->validate([
             'name'       => 'required|string|max:255',
             'faculty_id' => 'required|exists:faculties,id',
-            'subject_ids'   => 'nullable|array', 
+            'subject_ids'   => 'nullable|array',
             'subject_ids.*' => 'exists:subjects,id',
         ]);
 
@@ -51,7 +51,7 @@ class MajorController extends Controller
             $major->subjects()->sync($request->input('subject_ids'));
         }
 
-        return redirect()->route('admin.majors.index')->with('success', 'Major Added successfully.');
+        return redirect()->route('admin.majors.index')->with('success', 'Thêm ngành học thành công.');
     }
 
     /**
@@ -72,7 +72,7 @@ class MajorController extends Controller
     {
         $faculties = Faculty::all();
         $subjects = Subject::orderBy('name')->get();
-        
+
         // Lấy mảng ID các môn học của ngành
         $selectedSubjects = $major->subjects->pluck('id')->toArray();
 
@@ -105,7 +105,7 @@ class MajorController extends Controller
         $major->subjects()->sync($request->input('subject_ids', []));
 
         return redirect()->route('admin.majors.index')
-                         ->with('success', 'Major Updated successfully.');
+            ->with('success', 'Cập nhật ngành học thành công');
     }
 
     /**
@@ -113,10 +113,10 @@ class MajorController extends Controller
      */
     public function destroy(Major $major)
     {
-       
+
         $major->delete();
 
         return redirect()->route('admin.majors.index')
-            ->with('success', 'Major Data deleted successfully.');
+            ->with('success', 'Xoá ngành học thành công');
     }
 }
