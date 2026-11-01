@@ -1,16 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\Student;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ScoreController extends Controller
 {
-    //
     public function index()
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         $student = $user->student;
 

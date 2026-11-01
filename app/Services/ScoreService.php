@@ -14,7 +14,7 @@ class ScoreService
         return Score::with('subject')
             ->where('student_id', $studentId)
             ->get()
-            ->sortBy(fn ($score) => $score->subject->name)
+            ->sortBy(fn($score) => $score->subject->name)
             ->values();
     }
 
@@ -27,17 +27,17 @@ class ScoreService
     }
 
     /** Danh sách cho admin, có tìm theo tên/mã học sinh và lọc theo môn */
-    public function paginate(?string $keyword = null, ?int $subjectId = null, int $perPage = 10, ?int $majorId = null): LengthAwarePaginator
+    public function paginate(?string $keyword = null, ?int $subjectId = null, ?int $majorId = null, int $perPage = 10): LengthAwarePaginator
     {
         return Score::with(['student.classRoom', 'subject'])
             ->when($keyword, function ($query, $keyword) {
                 $query->whereHas('student', function ($q) use ($keyword) {
                     $q->where('full_name', 'like', "%{$keyword}%")
-                      ->orWhere('student_code', 'like', "%{$keyword}%");
+                        ->orWhere('student_code', 'like', "%{$keyword}%");
                 });
             })
-            ->when($subjectId, fn ($query, $id) => $query->where('subject_id', $id))
-            ->when($majorId, fn($q, $id) => $q->whereHas('student.classRoom', fn ($c) => $c->where('major_id', $id)))
+            ->when($subjectId, fn($query, $id) => $query->where('subject_id', $id))
+            ->when($majorId, fn($q, $id) => $q->whereHas('student.classRoom', fn($c) => $c->where('major_id', $id)))
             ->latest()
             ->paginate($perPage)
             ->withQueryString();

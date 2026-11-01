@@ -19,9 +19,9 @@ class ScoreController extends Controller
     public function index(Request $request)
     {
         return view('admin.scores.index', [
-            'scores'   => $this->scores->paginate($request->input('q'), $request->integer('subject_id') ?: null, $request->integer('integer') ?: null),
+            'scores'   => $this->scores->paginate($request->input('q'), $request->integer('subject_id') ?: null, $request->integer('major_id') ?: null),
             'subjects' => Subject::orderBy('name')->get(),
-            'majors'=> Student::orderBy('name')->get(),
+            'majors'=> Major::orderBy('name')->get(),
         ]);
     }
 
