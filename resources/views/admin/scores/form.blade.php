@@ -54,52 +54,71 @@
 </div>
 
 <script>
-(function () {
-    const codeInput = document.querySelector('input[name="student_code"]');
-    const hint      = document.getElementById('student-hint');
-    const fields    = document.querySelectorAll('[data-info]');
-    const url       = @json(route('admin.scores.student-lookup'));
-    let timer;
+    (function() {
+        const codeInput = document.querySelector('input[name="student_code"]');
+        const hint = document.getElementById('student-hint');
+        const fields = document.querySelectorAll('[data-info]');
+        const url = @json(route('admin.scores.student-lookup'));
+        const subjectSelect = document.querySelector('select[name="subject_id"]');
+        let timer;
 
-    // điền (hoặc xóa) mọi ô thông tin theo dữ liệu trả về
-    function fill(data) {
-        fields.forEach(function (el) {
-            el.value = data ? (data[el.dataset.info] ?? '') : '';
-        });
-    }
-
-    function lookup() {
-        const code = codeInput.value.trim();
-
-        if (!code) {
-            fill(null);
-            hint.textContent = '';
-            return;
+        function setSubjects(list) {
+            const keep = subjectSelect.value; // giữ môn đang chọn nếu còn hợp lệ
+            subjectSelect.innerHTML = '<option value="">-- Chọn môn --</option>';
+            list.forEach(function(s) {
+                const o = document.createElement('option');
+                o.value = s.id;
+                o.textContent = s.name;
+                if (String(s.id) === keep) o.selected = true;
+                subjectSelect.appendChild(o);
+            });
         }
 
-        fetch(url + '?code=' + encodeURIComponent(code), {
-            headers: { 'Accept': 'application/json' }
-        })
-        .then(r => r.json())
-        .then(d => {
-            if (d.found) {
-                fill(d);
-                hint.textContent = '';
-            } else {
+        // điền (hoặc xóa) mọi ô thông tin theo dữ liệu trả về
+        function fill(data) {
+            fields.forEach(function(el) {
+                el.value = data ? (data[el.dataset.info] ?? '') : '';
+            });
+        }
+
+        function lookup() {
+            const code = codeInput.value.trim();
+
+            if (!code) {
                 fill(null);
-                hint.textContent = 'Không tìm thấy sinh viên có mã này';
+                hint.textContent = '';
+                return;
             }
-        })
-        .catch(() => { fill(null); hint.textContent = ''; });
-    }
 
-    // đợi 0,3 giây sau khi ngừng gõ mới tra, tránh gọi liên tục
-    codeInput.addEventListener('input', function () {
-        clearTimeout(timer);
-        timer = setTimeout(lookup, 300);
-    });
+            fetch(url + '?code=' + encodeURIComponent(code), {
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(r => r.json())
+                .then(d => {
+                    if (d.found) {
+                        fill(d);
+                        setSubjects(d.subjects);
+                        hint.textContent = '';
+                    } else {
+                        fill(null);
+                        hint.textContent = 'Không tìm thấy sinh viên có mã này';
+                    }
+                })
+                .catch(() => {
+                    fill(null);
+                    hint.textContent = '';
+                });
+        }
 
-    // trang sửa điểm: ô mã đã có sẵn thì tra luôn
-    if (codeInput.value) lookup();
-})();
+        // đợi 0,3 giây sau khi ngừng gõ mới tra, tránh gọi liên tục
+        codeInput.addEventListener('input', function() {
+            clearTimeout(timer);
+            timer = setTimeout(lookup, 300);
+        });
+
+        // trang sửa điểm: ô mã đã có sẵn thì tra luôn
+        if (codeInput.value) lookup();
+    })();
 </script>

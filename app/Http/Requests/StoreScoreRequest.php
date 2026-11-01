@@ -21,11 +21,20 @@ class StoreScoreRequest extends FormRequest
             'student_code' => ['required', 'exists:students,student_code'],
             'student_id'   => ['nullable', 'integer'],
             'subject_id'   => [
+                'bail',
                 'required',
                 'exists:subjects,id',
                 Rule::unique('scores')
                     ->where('student_id', $this->student_id)
                     ->ignore($ignoreId),
+                function ($attribute, $value, $fail) {
+                    $student = Student::with('classRoom.major.subjects')->find($this->student_id);
+                    $allowed = $student?->classRoom?->major?->subjects?->pluck('id')->all() ?? [];
+
+                    if ($student && !in_array((int) $value, $allowed, true)) {
+                        $fail('Môn học này không thuộc ngành đào tạo của sinh viên!');
+                    }
+                },
             ],
             'score' => ['required', 'numeric', 'between:0,10'],
         ];
@@ -41,8 +50,7 @@ class StoreScoreRequest extends FormRequest
             'subject_id.unique'   => 'Sinh viên này đã có điểm môn học này rồi!',
             'score.required'      => 'Vui lòng nhập điểm số.',
             'score.numeric'       => 'Điểm số phải là dạng số.',
-            'score.min'           => 'Điểm số không được nhỏ hơn 0.',
-            'score.max'           => 'Điểm số không được vượt quá 10.',
+            'score.between'       => 'Điểm số phải nằm trong khoảng từ 0 đến 10.',
             'student_code.exists' => 'Không tìm thấy sinh viên có mã này.',
             'student_code.required' => 'Vui lòng nhập mã sinh viên.',
         ];

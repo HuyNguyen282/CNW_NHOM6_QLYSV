@@ -11,4 +11,9 @@ class Subject extends Model
     {
         return $this->hasMany(Score::class);
     }
+    public function majors(): BelongsToMany
+    {
+        return $this->belongsToMany(Major::class, 'major_subject', 'subject_id', 'major_id');
+    }
+
 }

@@ -43,7 +43,6 @@
    
     <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: stretch;">
         
-       
         <div style="flex: 1; min-width: 350px;">
             <div class="d-flex flex-column gap-4 h-100">
                 
@@ -72,7 +71,7 @@
                     </div>
                 </div>
 
-                <!--  điểm trung bình  -->
+                <!-- Điểm trung bình theo khoa -->
                 <div class="card border-0 shadow-sm rounded-4 flex-grow-1">
                     <div class="card-header bg-white py-3 border-0">
                         <h5 class="fw-bold text-dark m-0">Điểm trung bình theo khoa</h5>
@@ -85,7 +84,7 @@
                             <div class="mb-3">
                                 <div class="d-flex justify-content-between mb-1">
                                     <span class="fw-semibold text-secondary">{{ $faculty->name }}</span>
-                                    <span class="fw-bold text-success">{{ $faculty->avg_score }} điểm</span>
+                                    <span class="fw-bold text-success">{{ $faculty->avg_score ?? 0 }} điểm</span>
                                 </div>
                                 <div class="progress" style="height: 12px; background-color: #f1f3f5; border-radius: 10px;">
                                     <div class="progress-bar bg-success rounded-pill" role="progressbar" style="width: {{ $percent }}%;"></div>
@@ -100,18 +99,18 @@
             </div>
         </div>
 
-        <!-- ================= NỬA BÊN PHẢI: Ô TÌM KIẾM & KẾT QUẢ TRA CỨU ================= -->
+       
         <div style="flex: 1; min-width: 350px;">
             <div class="card border-0 shadow-sm rounded-4 h-100">
                 <div class="card-header bg-white py-3 border-0">
-                    <h5 class="fw-bold text-dark m-0">🔍 Tra cứu theo ngành / lớp</h5>
+                    <h5 class="fw-bold text-dark m-0">🔍 Tra cứu điểm theo ngành / lớp</h5>
                 </div>
                 <div class="card-body p-4 d-flex flex-column">
                     
                     <!-- Form ô tìm kiếm -->
                     <form action="{{ route('admin.dashboard') }}" method="GET" class="mb-4">
                         <div class="input-group shadow-sm">
-                            <input type="text" name="keyword" value="{{ $keyword ?? '' }}" class="form-control rounded-start-pill px-3 py-2 border-secondary-subtle" placeholder="Nhập ngành/ lớp để xem điểm trung bình...">
+                            <input type="text" name="keyword" value="{{ $keyword ?? '' }}" class="form-control rounded-start-pill px-3 py-2 border-secondary-subtle" placeholder="Nhập tên ngành hoặc lớp học...">
                             <button type="submit" class="btn btn-primary px-4 fw-semibold"><i class="fas fa-search"></i> Tìm</button>
                             @if(!empty($keyword))
                                 <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-secondary rounded-end-pill px-3 d-flex align-items-center" title="Xóa tìm kiếm"><i class="fas fa-times"></i></a>
@@ -126,58 +125,77 @@
                             <div class="mb-3">
                                 <i class="fas fa-search fa-3x text-black-50 opacity-50"></i>
                             </div>
-                            <p class="fw-medium">Hãy nhập tên Ngành hoặc Lớp vào ô tìm kiếm để xem số liệu thống kê chi tiết.</p>
+                            <p class="fw-medium">Hãy nhập tên Ngành hoặc Lớp vào ô tìm kiếm để xem điểm trung bình chi tiết từng môn.</p>
                         </div>
                     @else
                         <!-- Trạng thái sau khi đã nhập từ khóa -->
-                        <div class="d-flex flex-column gap-3">
+                        <div class="d-flex flex-column gap-3 overflow-auto" style="max-height: 550px;">
                             
-
-                            <!-- Bảng kết quả điểm -->
-                            @if($stats['avgScoreBySearchMajor']->count() > 0)
-                                <div>
-                                    <h6 class="fw-bold text-secondary mb-2">📚 Điểm trung bình theo ngành tìm thấy:</h6>
-                                    <div class="table-responsive border rounded-3">
-                                        <table class="table table-hover align-middle mb-0">
-                                            <thead class="table-light">
-                                                <tr><th class="ps-3">Tên Ngành</th><th class="text-end pe-3">Điểm trung bình</th></tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($stats['avgScoreBySearchMajor'] as $major)
-                                                <tr>
-                                                    <td class="ps-3 fw-medium text-dark">{{ $major->name }}</td>
-                                                    <td class="text-end pe-3"><span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill fw-bold">{{ $major->avg_score }}</span></td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                            <!-- Kết quả theo Ngành -->
+                            @if(isset($stats['searchMajorsResult']) && $stats['searchMajorsResult']->count() > 0)
+                                @foreach($stats['searchMajorsResult'] as $item)
+                                    <div class="card border mb-2 shadow-none">
+                                        <div class="card-header bg-light py-2">
+                                            <h6 class="fw-bold text-primary mb-0">📚 Ngành: {{ $item['major_name'] }}</h6>
+                                        </div>
+                                        <div class="card-body p-0">
+                                            <table class="table table-sm table-hover align-middle mb-0">
+                                                <thead class="table-light">
+                                                    <tr><th class="ps-3">Tên môn học</th><th class="text-end pe-3">Điểm TB môn</th></tr>
+                                                </thead>
+                                                <tbody>
+                                                    @forelse($item['subjects'] as $sub)
+                                                    <tr>
+                                                        <td class="ps-3 text-dark">{{ $sub->subject_name }}</td>
+                                                        <td class="text-end pe-3">
+                                                            <span class="badge bg-primary bg-opacity-10 text-primary px-2 py-1 fw-bold">
+                                                                {{ $sub->avg_score ?? 'Chưa có điểm' }}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    @empty
+                                                    <tr><td colspan="2" class="text-center text-muted py-2">Ngành này chưa có môn học nào.</td></tr>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
-                                </div>
+                                @endforeach
                             @endif
 
-                       
-                            @if($stats['avgScoreBySearchClass']->count() > 0)
-                                <div>
-                                    <h6 class="fw-bold text-secondary mb-2">🏫 Điểm trung bình theo lớp tìm thấy:</h6>
-                                    <div class="table-responsive border rounded-3">
-                                        <table class="table table-hover align-middle mb-0">
-                                            <thead class="table-light">
-                                                <tr><th class="ps-3">Tên Lớp</th><th class="text-end pe-3">Điểm trung bình</th></tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($stats['avgScoreBySearchClass'] as $classroom)
-                                                <tr>
-                                                    <td class="ps-3 fw-medium text-dark">{{ $classroom->name }}</td>
-                                                    <td class="text-end pe-3"><span class="badge bg-warning bg-opacity-10 text-warning px-3 py-2 rounded-pill fw-bold">{{ $classroom->avg_score }}</span></td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                            <!-- Kết quả theo Lớp -->
+                            @if(isset($stats['searchClassesResult']) && $stats['searchClassesResult']->count() > 0)
+                                @foreach($stats['searchClassesResult'] as $item)
+                                    <div class="card border mb-2 shadow-none">
+                                        <div class="card-header bg-light py-2">
+                                            <h6 class="fw-bold text-success mb-0">🏫 Lớp: {{ $item['class_name'] }} <small class="text-muted fw-normal">({{ $item['major_name'] }})</small></h6>
+                                        </div>
+                                        <div class="card-body p-0">
+                                            <table class="table table-sm table-hover align-middle mb-0">
+                                                <thead class="table-light">
+                                                    <tr><th class="ps-3">Tên môn học</th><th class="text-end pe-3">Điểm TB môn</th></tr>
+                                                </thead>
+                                                <tbody>
+                                                    @forelse($item['subjects'] as $sub)
+                                                    <tr>
+                                                        <td class="ps-3 text-dark">{{ $sub->subject_name }}</td>
+                                                        <td class="text-end pe-3">
+                                                            <span class="badge bg-success bg-opacity-10 text-success px-2 py-1 fw-bold">
+                                                                {{ $sub->avg_score ?? 'Chưa có điểm' }}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    @empty
+                                                    <tr><td colspan="2" class="text-center text-muted py-2">Lớp này chưa có môn học nào.</td></tr>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
-                                </div>
+                                @endforeach
                             @endif
 
-                            @if($stats['avgScoreBySearchMajor']->count() == 0 && $stats['avgScoreBySearchClass']->count() == 0)
+                            @if((!isset($stats['searchMajorsResult']) || $stats['searchMajorsResult']->count() == 0) && (!isset($stats['searchClassesResult']) || $stats['searchClassesResult']->count() == 0))
                                 <div class="text-center text-muted py-4">
                                     <p class="mb-0">Không tìm thấy ngành hoặc lớp nào khớp với từ khóa "<strong>{{ $keyword }}</strong>".</p>
                                 </div>

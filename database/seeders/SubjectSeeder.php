@@ -12,197 +12,157 @@ class SubjectSeeder extends Seeder
     {
         $faker = Faker::create('vi_VN');
 
-        // Danh sách môn học theo từng ngành
+        // Danh sách môn học chuẩn theo từng ngành (Đã khớp hoàn toàn với MajorSubjectSeeder)
         $subjectsByMajor = [
             'Hệ thống thông tin' => [
-                'Cơ sở dữ liệu',
-                'Phân tích và thiết kế hệ thống thông tin',
-                'Hệ thống thông tin quản lý',
-                'Kho dữ liệu và khai phá dữ liệu',
-                'Phân tích nghiệp vụ',
+                'Lập trình căn bản', 
+                'Cấu trúc dữ liệu và giải thuật', 
+                'Hệ cơ sở dữ liệu', 
+                'Phân tích thiết kế hệ thống thông tin', 
+                'Hệ thống thông tin doanh nghiệp',
+                'Lập trình Web'
             ],
-
             'Công nghệ thông tin' => [
-                'Nhập môn công nghệ thông tin',
-                'Lập trình web',
-                'Mạng máy tính',
-                'An toàn thông tin',
-                'Điện toán đám mây',
+                'Lập trình căn bản', 
+                'Cấu trúc dữ liệu và giải thuật', 
+                'Hệ cơ sở dữ liệu', 
+                'Mạng máy tính', 
+                'Lập trình hướng đối tượng', 
+                'Công nghệ phần mềm'
             ],
-
             'Khoa học máy tính' => [
-                'Trí tuệ nhân tạo cơ bản',
-                'Thuật toán nâng cao',
-                'Học máy',
-                'Xử lý ngôn ngữ tự nhiên',
-                'Thị giác máy tính',
+                'Lập trình căn bản', 
+                'Cấu trúc dữ liệu và giải thuật', 
+                'Toán rời rạc', 
+                'Trí tuệ nhân tạo', 
+                'Học máy', 
+                'Nguyên lý hệ điều hành'
             ],
-
             'Trí tuệ nhân tạo và Khoa học dữ liệu' => [
-                'Nhập môn trí tuệ nhân tạo',
-                'Học sâu',
-                'Khoa học dữ liệu',
-                'Phân tích dữ liệu lớn',
-                'Mạng nơ-ron nhân tạo',
+                'Toán cao cấp cho Khoa học dữ liệu', 
+                'Lập trình Python cho AI', 
+                'Cơ sở dữ liệu lớn (Big Data)', 
+                'Học máy', 
+                'Học sâu (Deep Learning)'
             ],
-
             'Kỹ thuật phần mềm' => [
-                'Công nghệ phần mềm',
-                'Kiểm thử phần mềm',
-                'Thiết kế phần mềm',
-                'Quản lý dự án phần mềm',
-                'Phát triển ứng dụng di động',
+                'Lập trình căn bản', 
+                'Lập trình hướng đối tượng', 
+                'Công nghệ phần mềm', 
+                'Kiểm thử phần mềm', 
+                'Kiến trúc và thiết kế phần mềm'
             ],
-
             'Kỹ thuật tài nguyên nước' => [
-                'Thủy lực đại cương',
-                'Quy hoạch tài nguyên nước',
-                'Thủy văn công trình',
-                'Quản lý tài nguyên nước',
-                'Mô hình toán thủy văn',
+                'Thủy lực đại cương', 
+                'Thủy văn công trình', 
+                'Cơ học lưu chất', 
+                'Quản lý tài nguyên nước'
             ],
-
             'Thủy văn học' => [
-                'Thủy văn đại cương',
-                'Khí tượng học',
-                'Dự báo thủy văn',
-                'Thủy văn lưu vực',
-                'Biến đổi khí hậu',
+                'Thủy văn đại cương', 
+                'Khí tượng học', 
+                'Đo đạc thủy văn', 
+                'Dự báo thủy văn'
             ],
-
             'Kỹ thuật xây dựng công trình thủy' => [
-                'Cơ học đất',
-                'Thủy công',
-                'Kết cấu bê tông cốt thép',
-                'Thiết kế đập',
-                'Nền móng công trình thủy',
+                'Cơ học kết cấu', 
+                'Sức bền vật liệu', 
+                'Công trình thủy công', 
+                'Địa chất công trình'
             ],
-
             'Kỹ thuật xây dựng' => [
-                'Cơ học kết cấu',
-                'Kết cấu thép',
-                'Vật liệu xây dựng',
-                'Thiết kế công trình dân dụng',
-                'Tổ chức thi công',
+                'Cơ học kết cấu', 
+                'Sức bền vật liệu', 
+                'Vật liệu xây dựng', 
+                'Thiết kế kết cấu thép'
             ],
-
             'Kỹ thuật xây dựng công trình giao thông' => [
-                'Thiết kế đường ô tô',
-                'Cầu bê tông cốt thép',
-                'Quy hoạch giao thông',
-                'Kết cấu áo đường',
-                'Khảo sát công trình giao thông',
+                'Trắc địa công trình', 
+                'Thiết kế đường', 
+                'Nền móng công trình giao thông'
             ],
-
             'Quản trị kinh doanh' => [
-                'Quản trị học',
-                'Marketing căn bản',
-                'Quản trị nhân lực',
-                'Quản trị chiến lược',
-                'Hành vi tổ chức',
+                'Nguyên lý quản trị kinh doanh', 
+                'Marketing căn bản', 
+                'Quản trị nguồn nhân lực', 
+                'Tài chính doanh nghiệp'
             ],
-
             'Kế toán' => [
-                'Nguyên lý kế toán',
-                'Kế toán tài chính',
-                'Kế toán quản trị',
-                'Kiểm toán căn bản',
-                'Phân tích báo cáo tài chính',
+                'Nguyên lý kế toán', 
+                'Kế toán tài chính', 
+                'Kế toán quản trị', 
+                'Kiểm toán căn bản'
             ],
-
             'Kinh tế' => [
-                'Kinh tế vi mô',
-                'Kinh tế vĩ mô',
-                'Kinh tế lượng',
-                'Kinh tế phát triển',
-                'Kinh tế quốc tế',
+                'Kinh tế vi mô', 
+                'Kinh tế vĩ mô', 
+                'Kinh tế lượng', 
+                'Lịch sử kinh tế'
             ],
-
             'Kỹ thuật điện' => [
-                'Mạch điện',
-                'Máy điện',
-                'Điện tử công suất',
-                'Hệ thống cung cấp điện',
-                'An toàn điện',
+                'Kỹ thuật điện tử', 
+                'Mạch điện', 
+                'Hệ thống cung cấp điện', 
+                'Máy điện'
             ],
-
             'Kỹ thuật điều khiển và tự động hóa' => [
-                'Lý thuyết điều khiển tự động',
-                'Điều khiển logic',
-                'Cảm biến và đo lường',
-                'Hệ thống điều khiển số',
-                'Robot công nghiệp',
+                'Lý thuyết điều khiển tự động', 
+                'Vi điều khiển', 
+                'Hệ thống đo lường và điều khiển công nghiệp'
             ],
-
             'Kỹ thuật cơ khí' => [
-                'Nguyên lý máy',
-                'Sức bền vật liệu',
-                'Công nghệ chế tạo máy',
-                'Chi tiết máy',
-                'CAD/CAM',
+                'Vẽ kỹ thuật', 
+                'Nguyên lý máy', 
+                'Chi tiết máy', 
+                'Công nghệ chế tạo máy'
             ],
-
             'Kỹ thuật ô tô' => [
-                'Kết cấu ô tô',
-                'Động cơ đốt trong',
-                'Hệ thống truyền lực ô tô',
-                'Điện và điện tử ô tô',
-                'Chẩn đoán kỹ thuật ô tô',
+                'Động cơ đốt trong', 
+                'Lý thuyết ô tô', 
+                'Hệ thống điện - điện tử ô tô'
             ],
-
             'Kỹ thuật cơ điện tử' => [
-                'Hệ thống cơ điện tử',
-                'Vi điều khiển',
-                'Điều khiển robot',
-                'Thiết kế hệ thống nhúng',
-                'Cảm biến và cơ cấu chấp hành',
+                'Hệ thống nhúng', 
+                'Robot công nghiệp', 
+                'Truyền động điện và khí nén'
             ],
-
             'Kỹ thuật môi trường' => [
-                'Hóa học môi trường',
-                'Xử lý nước cấp',
-                'Xử lý nước thải',
-                'Quản lý chất thải rắn',
-                'Đánh giá tác động môi trường',
+                'Hóa học môi trường', 
+                'Công nghệ xử lý nước cấp và nước thải', 
+                'Quản lý chất thải rắn'
             ],
-
             'Công nghệ sinh học' => [
-                'Sinh học phân tử',
-                'Di truyền học',
-                'Vi sinh vật học',
-                'Công nghệ gen',
-                'Kỹ thuật lên men',
+                'Sinh học phân tử', 
+                'Vi sinh vật học', 
+                'Công nghệ tế bào', 
+                'Công nghệ enzyme'
             ],
-
             'Ngôn ngữ Anh' => [
-                'Ngữ âm tiếng Anh',
-                'Ngữ pháp tiếng Anh',
-                'Biên dịch tiếng Anh',
-                'Phiên dịch tiếng Anh',
-                'Giao tiếp liên văn hóa',
+                'Ngữ pháp tiếng Anh thực hành', 
+                'Ngữ âm - Âm vị học tiếng Anh', 
+                'Biên dịch - Phiên dịch thương mại', 
+                'Văn hóa các nước nói tiếng Anh'
             ],
         ];
 
-        $subjects = [];
-
-        foreach ($subjectsByMajor as $majorName => $subjectNames) {
-            foreach ($subjectNames as $subjectName) {
-                $subjects[] = [
-                    'name' => $subjectName,
-                    'credits' => $faker->numberBetween(2, 4),
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
+        // Lấy tất cả các tên môn học duy nhất (tránh bị trùng lặp khi các ngành có chung môn)
+        $uniqueSubjectNames = [];
+        foreach ($subjectsByMajor as $subjectNames) {
+            foreach ($subjectNames as $name) {
+                $uniqueSubjectNames[$name] = true;
             }
         }
 
-        // Chỉ thêm môn học chưa tồn tại
-        foreach ($subjects as $subject) {
+        // Chèn vào bảng subjects
+        foreach (array_keys($uniqueSubjectNames) as $subjectName) {
             DB::table('subjects')->updateOrInsert(
-                ['name' => $subject['name']],
-                $subject
+                ['name' => $subjectName],
+                [
+                    'credits'    => $faker->numberBetween(2, 4),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]
             );
         }
     }
 }
-

@@ -24,4 +24,9 @@ class Major extends Model
     {
         return $this->hasManyThrough(Student::class, ClassRoom::class);
     }
+    // Thêm quan hệ Nhiều - Nhiều với Môn học qua bảng trung gian major_subject
+    public function subjects(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'major_subject', 'major_id', 'subject_id');
+    }
 }

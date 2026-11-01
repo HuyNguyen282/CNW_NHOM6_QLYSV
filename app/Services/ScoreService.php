@@ -27,7 +27,7 @@ class ScoreService
     }
 
     /** Danh sách cho admin, có tìm theo tên/mã học sinh và lọc theo môn */
-    public function paginate(?string $keyword = null, ?int $subjectId = null, int $perPage = 10): LengthAwarePaginator
+    public function paginate(?string $keyword = null, ?int $subjectId = null, int $perPage = 10, ?int $majorId = null): LengthAwarePaginator
     {
         return Score::with(['student.classRoom', 'subject'])
             ->when($keyword, function ($query, $keyword) {
@@ -37,6 +37,7 @@ class ScoreService
                 });
             })
             ->when($subjectId, fn ($query, $id) => $query->where('subject_id', $id))
+            ->when($majorId, fn($q, $id) => $q->whereHas('student.classRoom', fn ($c) => $c->where('major_id', $id)))
             ->latest()
             ->paginate($perPage)
             ->withQueryString();
