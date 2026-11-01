@@ -51,5 +51,8 @@
                 @endforelse
             </tbody>
         </table>
+        <div class="mt-3">
+        {{ $scores->links() }}
+    </div>
     </div>
 @endsection
