@@ -83,6 +83,7 @@ class StudentController extends Controller
                 User::create([
                     'name'       => $validated['full_name'], // Bắt buộc do cột name trong DB NOT NULL
                     'username'   => $student->student_code,
+                    'email' => strtolower($student->student_code) . '@gmail.com',
                     'password'   => Hash::make($student->student_code),
                     'role'       => 'student',
                     'student_id' => $student->id,
@@ -149,6 +150,7 @@ class StudentController extends Controller
                     User::where('student_id', $student->id)->update([
                         'name'     => $validated['full_name'],
                         'username' => $validated['student_code'],
+                        'email'    => strtolower($validated['student_code']) . '@gmail.com',
                     ]);
                 }
             });

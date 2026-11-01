@@ -38,7 +38,8 @@ class ScoreService
             })
             ->when($subjectId, fn($query, $id) => $query->where('subject_id', $id))
             ->when($majorId, fn($q, $id) => $q->whereHas('student.classRoom', fn($c) => $c->where('major_id', $id)))
-            ->latest()
+            ->orderByDesc('updated_at')
+            ->orderByDesc('id')
             ->paginate($perPage)
             ->withQueryString();
     }

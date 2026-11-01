@@ -45,32 +45,18 @@ class ScoreController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreScoreRequest $request)
     {
-        $request->validate([
-            'student_id' => 'required|exists:students,id',
-            'subject_id' => 'required|exists:subjects,id',
-            'score'      => 'required|numeric|min:0|max:10',
+        $data = $request->validated();
+
+        $this->scores->create([
+            'student_id' => $data['student_id'],
+            'subject_id' => $data['subject_id'],
+            'score' => $data['score'],
         ]);
 
-        $student = Student::with('classRoom.major.subjects')->findOrFail($request->student_id);
-
-
-        $allowedSubjectIds = $student->classRoom?->major?->subjects->pluck('id')->toArray() ?? [];
-
-
-        if (!in_array($request->subject_id, $allowedSubjectIds)) {
-            return back()->withErrors(['subject_id' => 'Môn học này không thuộc ngành đào tạo của sinh viên!'])->withInput();
-        }
-
-
-        Score::create([
-            'student_id' => $request->student_id,
-            'subject_id' => $request->subject_id,
-            'score'      => $request->score,
-        ]);
-        $this->scores->create($request->validated());
-        return redirect()->route('admin.scores.index')->with('success', 'Đã thêm điểm thành công.');
+        return redirect()->route('admin.scores.index')
+            ->with('success', 'Đã thêm điểm thành công.');
     }
 
     public function edit(Score $score)
@@ -84,7 +70,7 @@ class ScoreController extends Controller
 
     public function update(StoreScoreRequest $request, Score $score)
     {
-        $this->scores->update($score, $request->validated());
+        $this->scores->update($score, $request->safe()->only(['student_id', 'subject_id', 'score']));
 
         return redirect()->route('admin.scores.index')->with('success', 'Đã cập nhật điểm.');
     }
