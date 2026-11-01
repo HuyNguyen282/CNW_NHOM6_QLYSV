@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>Nhập điểm</h2>
-
+<x-form-card title="Nhập điểm">
     <form method="POST" action="{{ route('admin.scores.store') }}">
         @csrf
         @include('admin.scores.form')
     </form>
+</x-form-card>
 @endsection

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Major extends Model
 {
@@ -19,9 +20,8 @@ class Major extends Model
     {
         return $this->hasMany(ClassRoom::class);
     }
-    public function students()
+    public function students(): HasManyThrough
     {
-       
         return $this->hasManyThrough(Student::class, ClassRoom::class);
     }
     // Thêm quan hệ Nhiều - Nhiều với Môn học qua bảng trung gian major_subject

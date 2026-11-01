@@ -56,11 +56,9 @@ class MajorSubjectSeeder extends Seeder
                 'Kiểm thử phần mềm', 
                 'Kiến trúc và thiết kế phần mềm'
             ],
-
-            // --- Khoa Kỹ thuật tài nguyên nước ---
             'Kỹ thuật tài nguyên nước' => [
                 'Thủy lực đại cương', 
-                'Đỷ văn công trình', 
+                'Thủy văn công trình', 
                 'Cơ học lưu chất', 
                 'Quản lý tài nguyên nước'
             ],
@@ -70,8 +68,6 @@ class MajorSubjectSeeder extends Seeder
                 'Đo đạc thủy văn', 
                 'Dự báo thủy văn'
             ],
-
-            // --- Khoa Công trình ---
             'Kỹ thuật xây dựng công trình thủy' => [
                 'Cơ học kết cấu', 
                 'Sức bền vật liệu', 
@@ -89,8 +85,6 @@ class MajorSubjectSeeder extends Seeder
                 'Thiết kế đường', 
                 'Nền móng công trình giao thông'
             ],
-
-            // --- Khoa Kinh tế và Quản lý ---
             'Quản trị kinh doanh' => [
                 'Nguyên lý quản trị kinh doanh', 
                 'Marketing căn bản', 
@@ -109,8 +103,6 @@ class MajorSubjectSeeder extends Seeder
                 'Kinh tế lượng', 
                 'Lịch sử kinh tế'
             ],
-
-            // --- Khoa Điện - Điện tử ---
             'Kỹ thuật điện' => [
                 'Kỹ thuật điện tử', 
                 'Mạch điện', 
@@ -122,8 +114,6 @@ class MajorSubjectSeeder extends Seeder
                 'Vi điều khiển', 
                 'Hệ thống đo lường và điều khiển công nghiệp'
             ],
-
-            // --- Khoa Cơ khí ---
             'Kỹ thuật cơ khí' => [
                 'Vẽ kỹ thuật', 
                 'Nguyên lý máy', 
@@ -140,8 +130,6 @@ class MajorSubjectSeeder extends Seeder
                 'Robot công nghiệp', 
                 'Truyền động điện và khí nén'
             ],
-
-            // --- Khoa Hóa và Môi trường ---
             'Kỹ thuật môi trường' => [
                 'Hóa học môi trường', 
                 'Công nghệ xử lý nước cấp và nước thải', 
@@ -153,8 +141,6 @@ class MajorSubjectSeeder extends Seeder
                 'Công nghệ tế bào', 
                 'Công nghệ enzyme'
             ],
-
-            // --- Khoa Ngoại ngữ ---
             'Ngôn ngữ Anh' => [
                 'Ngữ pháp tiếng Anh thực hành', 
                 'Ngữ âm - Âm vị học tiếng Anh', 

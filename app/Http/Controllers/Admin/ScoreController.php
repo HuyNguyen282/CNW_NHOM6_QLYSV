@@ -103,4 +103,30 @@ class ScoreController extends Controller
 
         return redirect()->route('admin.scores.index')->with('success', 'Đã xóa điểm.');
     }
+    public function lookupStudent(Request $request)
+    {
+        $code = strtoupper(trim((string) $request->query('code')));
+
+        // chỉ gõ số thì hiểu là SVxxxx
+        if ($code !== '' && ctype_digit($code)) {
+            $code = 'SV' . str_pad($code, 4, '0', STR_PAD_LEFT);
+        }
+
+        $student = Student::with('classRoom.major')
+            ->where('student_code', $code)
+            ->first();
+
+        if (!$student) {
+            return response()->json(['found' => false]);
+        }
+
+        return response()->json([
+            'found'   => true,
+            'code'    => $student->student_code,
+            'name'    => $student->full_name,
+            'class'   => $student->classRoom->name ?? null,
+            'major'   => $student->classRoom->major->name ?? null,
+            'faculty' => $student->classRoom->major->faculty->name ?? null,
+        ]);
+    }
 }

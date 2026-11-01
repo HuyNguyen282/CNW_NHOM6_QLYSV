@@ -23,6 +23,10 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Thêm route thống kê bảng điểm tổng hợp theo lớp
     Route::get('/statistics/class/{id}', [Admin\ScoreStatisticsController::class, 'byClass'])->name('statistics.by_class');
 
+    // Route phụ trợ tra cứu điểm sinh viên
+    Route::get('scores/student-lookup', [Admin\ScoreController::class, 'lookupStudent'])->name('scores.student-lookup');
+
+    // Các resource quản lý trong Admin
     Route::resource('classes', Admin\ClassController::class);
     Route::resource('students', Admin\StudentController::class);
     Route::resource('subjects', Admin\SubjectController::class);
