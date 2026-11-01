@@ -1,15 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
+@if ($message = Session::get('success'))
+<div class="alert alert-success alert-dismissible fade show">
+    {{ $message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+@endif
 
 <div class="page-head">
     <h2 class="page-title">Quản lý ngành học</h2>
 </div>
 
 <div class="container py-4">
-    
-    <div class="text-center mb-4">
-        <h2 class="fw-bold text-primary">Quản lý ngành học</h2>
+
+    <div class="card-head">
+        <b>Danh sách ngành học</b>
+        <a href="{{ route('admin.majors.create') }}" class="btn-primary-soft">
+            + Thêm ngành học
+        </a>
     </div>
 
     <table class="data-table">
@@ -30,7 +39,8 @@
                 <td>
                     <div class="row-actions">
                         <!-- Nút Xem chi tiết -->
-                        <a href="{{ route('admin.majors.show', $major->id) }}" class="icon-btn text-info" title="Xem chi tiết">
+                        <a href="{{ route('admin.majors.show', $major->id) }}" class="icon-btn text-info"
+                            title="Xem chi tiết">
                             <i class="bi bi-eye-fill"></i>
                         </a>
 
@@ -41,7 +51,7 @@
 
                         <!-- Nút Xóa -->
                         <form action="{{ route('admin.majors.destroy', $major->id) }}" method="POST"
-                              onsubmit="return confirm('Bạn có chắc chắn muốn xóa ngành này?');" style="display:inline;">
+                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa ngành này?');" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="icon-btn danger" title="Xóa">
