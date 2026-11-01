@@ -22,6 +22,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('students', Admin\StudentController::class);
     Route::resource('subjects', Admin\SubjectController::class);
     Route::resource('scores', Admin\ScoreController::class);
+    Route::get('scores/student-lookup', [Admin\ScoreController::class, 'lookupStudent'])->name('scores.student-lookup');
     Route::resource('faculties', Admin\FacultyController::class);
     Route::resource('majors', Admin\MajorController::class);
 });
