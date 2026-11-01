@@ -76,6 +76,9 @@
             @endforelse
         </tbody>
     </table>
+    <div class="mt-3">
+        {{ $subjects->links() }}
+    </div>
 </div>
 
 @endsection
